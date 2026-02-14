@@ -5,8 +5,10 @@ var player_nearby: bool = false
 
 func _ready():
 	# Поврзување на сигнали
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
+	if not body_exited.is_connected(_on_body_exited):
+		body_exited.connect(_on_body_exited)
 	
 	# Почетно скривање на лабелата
 	if label:

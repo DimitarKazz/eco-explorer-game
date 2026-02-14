@@ -9,7 +9,8 @@ var time_passed: float = 0.0
 
 func _ready():
 	start_position = global_position
-	body_entered.connect(_on_body_entered)
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
 
 func _process(delta):
 	time_passed += delta

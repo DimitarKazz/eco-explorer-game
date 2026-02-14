@@ -5,8 +5,10 @@ extends CanvasLayer
 
 func _ready():
 	# Поврзување на сигнали
-	GameManager.game_won.connect(_on_game_won)
-	restart_button.pressed.connect(_on_restart_pressed)
+	if not GameManager.game_won.is_connected(_on_game_won):
+		GameManager.game_won.connect(_on_game_won)
+	if not restart_button.pressed.is_connected(_on_restart_pressed):
+		restart_button.pressed.connect(_on_restart_pressed)
 	
 	# Почетно скривање
 	visible = false

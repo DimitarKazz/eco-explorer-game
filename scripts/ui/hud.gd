@@ -7,8 +7,10 @@ extends CanvasLayer
 
 func _ready():
 	# Поврзување на сигнали од GameManager
-	GameManager.item_collected.connect(_on_item_collected)
-	GameManager.pollution_changed.connect(_on_pollution_changed)
+	if not GameManager.item_collected.is_connected(_on_item_collected):
+		GameManager.item_collected.connect(_on_item_collected)
+	if not GameManager.pollution_changed.is_connected(_on_pollution_changed):
+		GameManager.pollution_changed.connect(_on_pollution_changed)
 	
 	# Почетно ажурирање
 	_on_item_collected(GameManager.collected_items, GameManager.total_items)

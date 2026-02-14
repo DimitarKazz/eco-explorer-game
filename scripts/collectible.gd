@@ -5,7 +5,8 @@ extends Area3D
 
 func _ready():
 	# Поврзување на сигналот за детекција на играчот
-	body_entered.connect(_on_body_entered)
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
 
 func _on_body_entered(body):
 	# Проверка дали е играчот
