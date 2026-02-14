@@ -1,0 +1,301 @@
+[gd_scene load_steps=15 format=3 uid="uid://d2oqwrvyxg3ha"]
+
+[ext_resource type="PackedScene" uid="uid://bxgujnbtkq4nc" path="res://scenes/player.tscn" id="1_je0i3"]
+[ext_resource type="PackedScene" uid="uid://ci7mmcwqxyjkb" path="res://scenes/collectible.tscn" id="2_hn5cn"]
+[ext_resource type="PackedScene" uid="uid://b31bkq4jj3x5q" path="res://scenes/purification_station.tscn" id="3_kprtw"]
+[ext_resource type="PackedScene" uid="uid://bmw8uc6cfqp3y" path="res://scenes/toxic_cloud.tscn" id="4_6h3hd"]
+[ext_resource type="PackedScene" uid="uid://cqhsyjlccv4t2" path="res://scenes/ui/hud.tscn" id="5_u8h8f"]
+[ext_resource type="PackedScene" uid="uid://bhbrxnk0y5uvy" path="res://scenes/ui/victory_screen.tscn" id="6_cpjh5"]
+[ext_resource type="PackedScene" uid="uid://bggfjk2jvu5dx" path="res://scenes/ui/defeat_screen.tscn" id="7_0ym65"]
+
+[sub_resource type="GDScript" id="GDScript_main"]
+script/source = "extends Node3D
+
+func _ready():
+	# Постави вкупен број на предмети
+	var collectibles = get_tree().get_nodes_in_group(\"collectible\")
+	GameManager.total_items = collectibles.size()
+	GameManager.reset_game()
+"
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
+sky_top_color = Color(0.529412, 0.807843, 0.921569, 1)
+sky_horizon_color = Color(0.647059, 0.839216, 0.945098, 1)
+ground_bottom_color = Color(0.2, 0.169, 0.133, 1)
+ground_horizon_color = Color(0.647059, 0.839216, 0.945098, 1)
+
+[sub_resource type="Sky" id="Sky_sky"]
+sky_material = SubResource("ProceduralSkyMaterial_sky")
+
+[sub_resource type="Environment" id="Environment_env"]
+background_mode = 2
+sky = SubResource("Sky_sky")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_water"]
+albedo_color = Color(0.2, 0.5, 0.6, 0.8)
+transparency = 1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ground"]
+albedo_color = Color(0.4, 0.3, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_platform"]
+albedo_color = Color(0.6, 0.5, 0.4, 1)
+
+[node name="Main" type="Node3D"]
+script = SubResource("GDScript_main")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_env")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("1_je0i3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 8)
+
+[node name="Water" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("PlaneMesh_water")
+surface_material_override/0 = SubResource("StandardMaterial3D_water")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_water"]
+size = Vector2(30, 30)
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_ground")
+
+[sub_resource type="BoxMesh" id="BoxMesh_ground"]
+size = Vector3(50, 1, 50)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+shape = SubResource("BoxShape3D_ground")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(50, 1, 50)
+
+[node name="Platforms" type="Node3D" parent="."]
+
+[node name="Platform1" type="StaticBody3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platforms/Platform1"]
+mesh = SubResource("BoxMesh_platform1")
+surface_material_override/0 = SubResource("StandardMaterial3D_platform")
+
+[sub_resource type="BoxMesh" id="BoxMesh_platform1"]
+size = Vector3(3, 1, 3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Platform1"]
+shape = SubResource("BoxShape3D_platform1")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_platform1"]
+size = Vector3(3, 1, 3)
+
+[node name="Platform2" type="StaticBody3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, -5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platforms/Platform2"]
+mesh = SubResource("BoxMesh_platform2")
+surface_material_override/0 = SubResource("StandardMaterial3D_platform")
+
+[sub_resource type="BoxMesh" id="BoxMesh_platform2"]
+size = Vector3(3, 1, 3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Platform2"]
+shape = SubResource("BoxShape3D_platform2")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_platform2"]
+size = Vector3(3, 1, 3)
+
+[node name="Platform3" type="StaticBody3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0.5, -8)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platforms/Platform3"]
+mesh = SubResource("BoxMesh_platform3")
+surface_material_override/0 = SubResource("StandardMaterial3D_platform")
+
+[sub_resource type="BoxMesh" id="BoxMesh_platform3"]
+size = Vector3(2, 1, 2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Platform3"]
+shape = SubResource("BoxShape3D_platform3")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_platform3"]
+size = Vector3(2, 1, 2)
+
+[node name="Collectibles" type="Node3D" parent="."]
+
+[node name="Collectible1" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2, 0)
+
+[node name="Collectible2" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.5, -5)
+
+[node name="Collectible3" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, -8)
+
+[node name="Collectible4" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -10)
+
+[node name="Collectible5" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1.5, 0)
+
+[node name="Collectible6" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 1.5, 5)
+
+[node name="Collectible7" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1.5, 8)
+
+[node name="Collectible8" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1.5, -3)
+
+[node name="Collectible9" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.5, 5)
+
+[node name="Collectible10" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 12)
+
+[node name="Collectible11" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.5, -8)
+
+[node name="Collectible12" parent="Collectibles" groups=["collectible"] instance=ExtResource("2_hn5cn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.5, 10)
+
+[node name="PurificationStation" parent="." instance=ExtResource("3_kprtw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -10)
+
+[node name="ToxicClouds" type="Node3D" parent="."]
+
+[node name="ToxicCloud1" parent="ToxicClouds" instance=ExtResource("4_6h3hd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 3, -5)
+move_distance = 4.0
+
+[node name="ToxicCloud2" parent="ToxicClouds" instance=ExtResource("4_6h3hd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2.5, 3)
+move_distance = 6.0
+move_horizontal = false
+
+[node name="ToxicCloud3" parent="ToxicClouds" instance=ExtResource("4_6h3hd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 3, 0)
+move_speed = 0.8
+move_distance = 5.0
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Boat" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.5, 8)
+mesh = SubResource("BoxMesh_boat")
+surface_material_override/0 = SubResource("StandardMaterial3D_boat")
+
+[sub_resource type="BoxMesh" id="BoxMesh_boat"]
+size = Vector3(2, 0.5, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_boat"]
+albedo_color = Color(0.545098, 0.270588, 0.0745098, 1)
+
+[node name="Barrels" type="Node3D" parent="Environment"]
+
+[node name="Barrel1" type="MeshInstance3D" parent="Environment/Barrels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, -2)
+mesh = SubResource("CylinderMesh_barrel")
+surface_material_override/0 = SubResource("StandardMaterial3D_barrel")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_barrel"]
+height = 1.0
+radius = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_barrel"]
+albedo_color = Color(0.5, 0.5, 0.5, 1)
+
+[node name="Barrel2" type="MeshInstance3D" parent="Environment/Barrels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.5, -1.5)
+mesh = SubResource("CylinderMesh_barrel")
+surface_material_override/0 = SubResource("StandardMaterial3D_barrel")
+
+[node name="Barrel3" type="MeshInstance3D" parent="Environment/Barrels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.5, 8)
+mesh = SubResource("CylinderMesh_barrel")
+surface_material_override/0 = SubResource("StandardMaterial3D_barrel")
+
+[node name="Reeds" type="Node3D" parent="Environment"]
+
+[node name="Reed1" type="MeshInstance3D" parent="Environment/Reeds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 1, 13)
+mesh = SubResource("CylinderMesh_reed")
+surface_material_override/0 = SubResource("StandardMaterial3D_reed")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_reed"]
+height = 2.0
+radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_reed"]
+albedo_color = Color(0.2, 0.5, 0.2, 1)
+
+[node name="Reed2" type="MeshInstance3D" parent="Environment/Reeds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 1, 13)
+mesh = SubResource("CylinderMesh_reed")
+surface_material_override/0 = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed3" type="MeshInstance3D" parent="Environment/Reeds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1, 12)
+mesh = SubResource("CylinderMesh_reed")
+surface_material_override/0 = SubResource("StandardMaterial3D_reed")
+
+[node name="Reed4" type="MeshInstance3D" parent="Environment/Reeds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1, 13)
+mesh = SubResource("CylinderMesh_reed")
+surface_material_override/0 = SubResource("StandardMaterial3D_reed")
+
+[node name="Fish" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 3)
+mesh = SubResource("CapsuleMesh_fish")
+surface_material_override/0 = SubResource("StandardMaterial3D_fish")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fish"]
+radius = 0.3
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fish"]
+albedo_color = Color(0.8, 0.4, 0.2, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fish"]
+_data = {
+"swim": SubResource("Animation_fish")
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Environment/Fish"]
+autoplay = "swim"
+libraries = {
+"": SubResource("AnimationLibrary_fish")
+}
+
+[sub_resource type="Animation" id="Animation_fish"]
+resource_name = "swim"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.5, 3), Vector3(0, -0.3, 3), Vector3(0, 0.5, 3)]
+}
+
+[node name="HUD" parent="." instance=ExtResource("5_u8h8f")]
+
+[node name="VictoryScreen" parent="." instance=ExtResource("6_cpjh5")]
+
+[node name="DefeatScreen" parent="." instance=ExtResource("7_0ym65")]
