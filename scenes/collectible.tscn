@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://ci7mmcwqxyjkb"]
+
+[ext_resource type="Script" path="res://scripts/collectible.gd" id="1_7p2kg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8qnwb"]
+albedo_color = Color(0.8, 0.2, 0.2, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_xk8ua"]
+material = SubResource("StandardMaterial3D_8qnwb")
+radius = 0.3
+height = 0.6
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_w2mhw"]
+radius = 0.5
+
+[node name="Collectible" type="Area3D"]
+script = ExtResource("1_7p2kg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_xk8ua")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_w2mhw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "rotate"
+libraries = {
+"": SubResource("AnimationLibrary_rotate")
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rotate"]
+
+[sub_resource type="Animation" id="Animation_rotate"]
+resource_name = "rotate"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}

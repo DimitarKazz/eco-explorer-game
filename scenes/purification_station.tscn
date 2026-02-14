@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://b31bkq4jj3x5q"]
+
+[ext_resource type="Script" path="res://scripts/purification_station.gd" id="1_qnvly"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uyk5k"]
+albedo_color = Color(0.2, 0.8, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5xvhw"]
+material = SubResource("StandardMaterial3D_uyk5k")
+size = Vector3(2, 3, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k0nwj"]
+size = Vector3(4, 3, 4)
+
+[node name="PurificationStation" type="Area3D"]
+script = ExtResource("1_qnvly")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_5xvhw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_k0nwj")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+pixel_size = 0.01
+billboard = 1
+text = "Притисни E за активација"
+font_size = 64
+outline_size = 8
