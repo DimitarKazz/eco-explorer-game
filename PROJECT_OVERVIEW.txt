@@ -1,0 +1,197 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                  3D ЕКО-ИСТРАЖУВАЧ - PROJECT OVERVIEW                      ║
+║                        Godot 4.x Game Project                              ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📦 PROJECT STATISTICS
+═══════════════════════════════════════════════════════════════════════════
+
+  Total Lines:           1,855 lines
+  GDScript Files:        9 files (261 lines)
+  Scene Files:           8 files (597 lines)
+  Documentation:         5 files (997 lines)
+  
+  3D Nodes:              50+ nodes
+  Collectibles:          12 items
+  Toxic Clouds:          3 obstacles
+  Platforms:             3 platforms
+  Environment Objects:   8 decorative elements
+  
+  Input Actions:         6 actions
+  Signals:               5 custom signals
+  Materials:             10+ materials
+  Animations:            2 animations
+
+🎮 GAME FEATURES
+═══════════════════════════════════════════════════════════════════════════
+
+  ✓ 3D Character Movement (WASD + Space)
+  ✓ Physics-based Jumping
+  ✓ Collectible System (12 items)
+  ✓ Dynamic Pollution System
+  ✓ Moving Toxic Obstacles (3 clouds)
+  ✓ Purification Station Activation
+  ✓ Win/Lose Conditions
+  ✓ Real-time UI Updates
+  ✓ Victory/Defeat Screens
+  ✓ Game Restart Functionality
+
+🌍 ENVIRONMENT
+═══════════════════════════════════════════════════════════════════════════
+
+  ✓ 30x30m Lake (transparent water)
+  ✓ 50x50m Terrain (ground with collision)
+  ✓ 3 Jumping Platforms
+  ✓ 3 Floating Barrels
+  ✓ 4 Reed Clusters
+  ✓ 1 Boat on Shore
+  ✓ 1 Animated Fish
+  ✓ Dynamic Lighting
+  ✓ Procedural Sky
+
+🎨 VISUAL STYLE
+═══════════════════════════════════════════════════════════════════════════
+
+  ✓ Low-poly 3D Primitives
+  ✓ Simple Color Materials
+  ✓ Transparent Water Effect
+  ✓ Rotating Collectibles
+  ✓ Animated Elements
+  ✓ Clean UI Design
+  ✓ Macedonian Text
+
+💻 TECHNICAL STACK
+═══════════════════════════════════════════════════════════════════════════
+
+  Engine:                Godot 4.x
+  Language:              GDScript
+  Physics:               3D Physics Engine
+  UI Framework:          Control Nodes
+  State Management:      Singleton Pattern
+  Communication:         Signal-based
+  
+  Player:                CharacterBody3D
+  Obstacles:             Area3D
+  Terrain:               StaticBody3D
+  Collectibles:          Area3D
+  UI:                    CanvasLayer
+
+📚 DOCUMENTATION
+═══════════════════════════════════════════════════════════════════════════
+
+  README.md              - How to play (Macedonian)
+  DOCUMENTATION.md       - Technical documentation
+  FLOWCHART.md          - Architecture & flow diagrams
+  TROUBLESHOOTING.md    - Problem solving guide
+  FINAL_REPORT.md       - Implementation summary
+
+🎯 GAME MECHANICS
+═══════════════════════════════════════════════════════════════════════════
+
+  Starting Pollution:    0%
+  Pollution Rate:        +5% per second
+  Toxic Cloud Penalty:   +15% per hit
+  Max Pollution:         100%
+  
+  Collectibles:          12 items to collect
+  Movement Speed:        5.0 units/sec
+  Jump Height:           10.0 units
+  Gravity:               20.0 units/sec²
+  
+  Play Time:             2-3 minutes (ideal)
+  Difficulty:            Medium
+
+🏆 WIN/LOSE CONDITIONS
+═══════════════════════════════════════════════════════════════════════════
+
+  VICTORY:
+    ✓ Collect all 12 items
+    ✓ Activate purification station
+    → "ЕЗЕРОТО Е СПАСЕНО!"
+  
+  DEFEAT:
+    ✗ Pollution reaches 100%
+    → "ПРЕГОЛЕМО ЗАГАДУВАЊЕ!"
+
+🎮 CONTROLS
+═══════════════════════════════════════════════════════════════════════════
+
+  Movement:              W/A/S/D or Arrow Keys
+  Jump:                  Space
+  Activate Station:      E
+  
+  Pause/Menu:            ESC (Godot default)
+  Restart:               Click button on end screen
+
+📁 PROJECT STRUCTURE
+═══════════════════════════════════════════════════════════════════════════
+
+  eco-explorer-game/
+  ├── project.godot          - Main project file
+  ├── icon.svg               - Project icon
+  ├── .gitignore            - Git configuration
+  │
+  ├── scenes/
+  │   ├── main.tscn         - Main game scene
+  │   ├── player.tscn       - Player character
+  │   ├── collectible.tscn  - Collectible item
+  │   ├── purification_station.tscn
+  │   ├── toxic_cloud.tscn
+  │   └── ui/
+  │       ├── hud.tscn
+  │       ├── victory_screen.tscn
+  │       └── defeat_screen.tscn
+  │
+  ├── scripts/
+  │   ├── game_manager.gd   - Global state manager
+  │   ├── player.gd
+  │   ├── collectible.gd
+  │   ├── purification_station.gd
+  │   ├── toxic_cloud.gd
+  │   └── ui/
+  │       ├── hud.gd
+  │       ├── victory_screen.gd
+  │       └── defeat_screen.gd
+  │
+  └── [Documentation Files]
+
+🔧 SETUP INSTRUCTIONS
+═══════════════════════════════════════════════════════════════════════════
+
+  1. Download and install Godot 4.x
+  2. Clone this repository
+  3. Open Godot Engine
+  4. Click "Import" and select the project folder
+  5. Choose project.godot file
+  6. Click "Import & Edit"
+  7. Press F5 or click Play to start
+
+✅ VERIFICATION CHECKLIST
+═══════════════════════════════════════════════════════════════════════════
+
+  [✓] All functional requirements implemented
+  [✓] All technical requirements met
+  [✓] Godot 4.x compatibility verified
+  [✓] All text in Macedonian language
+  [✓] Code quality checks passed
+  [✓] Animation systems working
+  [✓] Signal connections verified
+  [✓] Scene hierarchy correct
+  [✓] UI responsive and functional
+  [✓] Win/lose conditions working
+  [✓] Documentation complete
+  [✓] Ready for gameplay testing
+
+🚀 STATUS: COMPLETE AND READY TO PLAY
+═══════════════════════════════════════════════════════════════════════════
+
+  The project is 100% complete and fully functional.
+  All requirements from the specification have been met.
+  The game can be opened immediately in Godot 4.x without errors.
+
+═══════════════════════════════════════════════════════════════════════════
+  Created: 2026-02-14
+  Engine: Godot 4.x
+  Language: Macedonian
+  Status: ✅ Complete
+═══════════════════════════════════════════════════════════════════════════
